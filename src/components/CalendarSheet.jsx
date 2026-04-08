@@ -48,10 +48,7 @@ export default function CalendarSheet() {
   });
 
   const emptySlots = (firstDay.getDay() + 6) % 7;
-
   const totalCells = emptySlots + days.length;
-
-  // force 6 full rows every month = stable height
   const fillerCells = 42 - totalCells;
 
   const handleDateClick = (day) => {
@@ -80,7 +77,7 @@ export default function CalendarSheet() {
     endDate && isSameDay(day, endDate);
 
   return (
-    <div className="relative w-full max-w-lg bg-white shadow-2xl rounded-xl overflow-hidden">
+    <div className="relative w-full max-w-sm md:max-w-lg bg-white shadow-2xl rounded-xl overflow-hidden mx-auto">
       {/* Hanging pin */}
       <div className="absolute top-1 left-1/2 -translate-x-1/2 z-20">
         <div className="w-3 h-3 bg-gray-600 rounded-full" />
@@ -112,7 +109,7 @@ export default function CalendarSheet() {
           }}
         >
           {/* Hero image */}
-          <div className="relative h-72">
+          <div className="relative h-56 md:h-72">
             <img
               src={heroImage}
               className="w-full h-full object-cover"
@@ -145,30 +142,30 @@ export default function CalendarSheet() {
             <div className="absolute bottom-0 right-0 w-0 h-0 border-r-[160px] border-r-sky-500 border-t-[110px] border-t-transparent" />
 
             <div className="absolute bottom-8 right-6 text-right text-white">
-                <p
-                    className="text-lg font-semibold"
-                    style={{
-                    WebkitTextStroke: "0.6px rgba(255,255,255,0.9)",
-                    textShadow: "0 2px 8px rgba(0,0,0,0.35)",
-                    }}
-                >
-                    {format(currentMonth, "yyyy")}
-                </p>
+              <p
+                className="text-lg font-semibold"
+                style={{
+                  WebkitTextStroke: "0.6px rgba(255,255,255,0.9)",
+                  textShadow: "0 2px 8px rgba(0,0,0,0.35)",
+                }}
+              >
+                {format(currentMonth, "yyyy")}
+              </p>
 
-                <h2
-                    className="text-4xl font-bold tracking-wide"
-                    style={{
-                    WebkitTextStroke: "1px rgba(255,255,255,0.95)",
-                    textShadow: "0 3px 12px rgba(0,0,0,0.4)",
-                    }}
-                >
-                    {format(currentMonth, "MMMM").toUpperCase()}
-                </h2>
-                </div>
+              <h2
+                className="text-3xl md:text-4xl font-bold tracking-wide"
+                style={{
+                  WebkitTextStroke: "1px rgba(255,255,255,0.95)",
+                  textShadow: "0 3px 12px rgba(0,0,0,0.4)",
+                }}
+              >
+                {format(currentMonth, "MMMM").toUpperCase()}
+              </h2>
+            </div>
           </div>
 
-          {/* Fixed-height bottom section */}
-          <div className="grid grid-cols-2 p-6 gap-8 min-h-[360px]">
+          {/* Responsive bottom section */}
+          <div className="grid grid-cols-1 md:grid-cols-2 p-4 md:p-6 gap-6 md:gap-8 min-h-[360px]">
             {/* Notes */}
             <div>
               <h3 className="text-sm font-semibold mb-4 text-gray-600">
@@ -178,7 +175,7 @@ export default function CalendarSheet() {
               <textarea
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
-                className="w-full h-48 resize-none outline-none text-sm border-none"
+                className="w-full h-32 md:h-48 resize-none outline-none text-sm border-none"
                 placeholder="Write notes..."
               />
             </div>
@@ -194,18 +191,16 @@ export default function CalendarSheet() {
               </div>
 
               <div className="grid grid-cols-7 gap-2">
-                {/* leading blanks */}
                 {Array.from({ length: emptySlots }).map((_, index) => (
                   <div key={`empty-${index}`} />
                 ))}
 
-                {/* dates */}
                 {days.map((day) => (
                   <button
                     key={day.toString()}
                     onClick={() => handleDateClick(day)}
                     className={`
-                      text-sm h-10 w-10 rounded-full font-semibold
+                      text-xs md:text-sm h-8 w-8 md:h-10 md:w-10 rounded-full font-semibold
                       transition-all duration-300
                       flex items-center justify-center
                       ${
@@ -223,7 +218,6 @@ export default function CalendarSheet() {
                   </button>
                 ))}
 
-                {/* trailing blanks to keep 6 rows */}
                 {Array.from({ length: fillerCells }).map((_, index) => (
                   <div key={`filler-${index}`} />
                 ))}
